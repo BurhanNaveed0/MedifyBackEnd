@@ -48,8 +48,7 @@ def update_patient_info(info):
         for key in info:
             database.child("patients").child(info["dlid"]).update({key: info[key]})
     else:
-        database.push(info["dlid"])
-        database.child("patients").child(info["dlid"]).push(info)
+        database.child("patients").push({info["dlid"] : info})
 
 
 def get_patient_info(dlid):
@@ -57,12 +56,12 @@ def get_patient_info(dlid):
     return patient_info
 
 
-# Unit Test #1: User Login
+# Unit Test #1: User Login --> Passed
 user = login("bun@njit.edu", "abcdefg")
 print(verify_emt("101010"))
 print(user["idToken"])
 
-# Unit Test #2: Create Acct
+# Unit Test #2: Create Acct --> Passed
 # create_acct("jt123@njit.edu", "abcdefgh")
 
 # Unit Test #3: Verify EMS
@@ -70,14 +69,17 @@ print(verify_emt("10100"))
 
 # Unit Test #4: Update Patient Info
 info = {  "name" : "Jonas",
-          "age" : "18",
+          "age" : "15",
           "weight" : "145",
           "height" : "5'10",
-          "blood type" : "A",
-          "dlid" : "12312441",
+          "blood type" : "B",
+          "dlid" : "1232441",
           "medical conditions" : "Autism",
           "allergies" : "Sound",
           "medication" : "Crack"
 }
 update_patient_info(info)
+
+# Unit Test #5: Get Patient Info
+print(get_patient_info("12312441"))
 
