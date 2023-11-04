@@ -28,7 +28,10 @@ def login(email, password):
 
 
 def create_acct(email, password):
-    auth.create_user_with_email_and_password(email, password)
+    try:
+        auth.create_user_with_email_and_password(email, password)
+    except:
+        print("Acct. creation failed")
 
 
 def verify_emt(ems_id):
