@@ -48,7 +48,7 @@ def update_patient_info(info):
         for key in info:
             database.child("patients").child(info["dlid"]).update({key: info[key]})
     else:
-        database.child("patients").push({info["dlid"] : info})
+        database.child("patients").set({info["dlid"] : info})
 
 
 def get_patient_info(dlid):
@@ -72,8 +72,8 @@ info = {  "name" : "Jonas",
           "age" : "15",
           "weight" : "145",
           "height" : "5'10",
-          "blood type" : "B",
-          "dlid" : "1232441",
+          "blood type" : "A",
+          "dlid" : "122441",
           "medical conditions" : "Autism",
           "allergies" : "Sound",
           "medication" : "Crack"
