@@ -1,4 +1,5 @@
 import pyrebase
+import requests
 
 config = {
   'apiKey': "AIzaSyBLCdqXHMYP-Hm0maNclOpiWK-UsiQ-Eto",
@@ -15,22 +16,16 @@ firebase = pyrebase.initialize_app(config)
 database = firebase.database()
 auth = firebase.auth()
 
-"""
-Structure for Medical Info
-{ "name" : ~~~ 
-  "age" : ~~~
-  "weight" : ~~~
-  "height" : ~~~
-  "blood type" : ~~~
-  "dlid" : ~~~
-  "medical conditions" : [~~~]
-  "allergies" : [~~~]
-  "medication" : [~~~]}
-"""
-
 
 def login(email, password):
-    return auth.sign_in_with_email_and_password(email, password)
+    id_token = None
+
+    try:
+        id_token = auth.sign_in_with_email_and_password(email, password)["idToken"]
+    except:
+        print("Invalid credentials")
+
+    return id_token is not None
 
 
 def create_acct(email, password):
@@ -55,19 +50,19 @@ def get_patient_info(dlid):
     patient_info = database.child("patients").child(dlid).get().val()
     return patient_info
 
+# Unit Test: User Login
 
-# Unit Test #1: User Login --> Passed
-user = login("bun@njit.edu", "abcdefg")
+# Unit Test: User Login --> Passed
 print(verify_emt("101010"))
-print(user["idToken"])
+print(login("bun@njit.edu", "abcdefg"))
 
-# Unit Test #2: Create Acct --> Passed
+# Unit Test: Create Acct --> Passed
 # create_acct("jt123@njit.edu", "abcdefgh")
 
-# Unit Test #3: Verify EMS
+# Unit Test: Verify EMS
 print(verify_emt("10100"))
 
-# Unit Test #4: Update Patient Info
+# Unit Test: Update Patient Info --> Passed
 info = {  "name" : "Jonas",
           "age" : "15",
           "weight" : "145",
@@ -80,6 +75,6 @@ info = {  "name" : "Jonas",
 }
 update_patient_info(info)
 
-# Unit Test #5: Get Patient Info
+# Unit Test: Get Patient Info --> Passed
 print(get_patient_info("12312441"))
 
