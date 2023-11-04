@@ -1,5 +1,4 @@
 import pyrebase
-import requests
 
 config = {
   'apiKey': "AIzaSyBLCdqXHMYP-Hm0maNclOpiWK-UsiQ-Eto",
